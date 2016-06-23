@@ -2,25 +2,34 @@
 
 /* lexical grammar */
 %lex
+
 %%
-    \s+                   /* skip whitespace */
-    ("Vijay"|"Parmatma"|"Pooja"|"Srijayanth"|"Dolly")                   return 'NOUN'
-    ("drinks"|"plays"|"eats"|"likes")                                   return 'VERB'
-    ("water"|"work"|"banana"|"cricket"|"lassi")                         return 'NOUN'
-    <<EOF>>                                                             return 'EOF';
-
-
+\s+                   /* skip whitespace */
+("Vijay"|"Parmatma"|"Pooja"|"Srijayanth"|"Dolly")                   return 'NOUN'
+("drinks"|"plays"|"eats"|"likes")                                   return 'VERB'
+("water"|"work"|"banana"|"cricket"|"lassi")                         return 'OBJECT'
+<<EOF>>                                                             return 'EOF';
 /lex
 
-% start sentence
+%start sentence
 
-%% /* language grammar*/
+/* language grammar*/
+%%
 
-sentence
-    :NOUN VERB EOF{
-        console.log($1,$2)
+sentenceWithObject
+    :NOUN VERB OBJECT sentence{
+        console.log($1,$2,$3);
     }
-    |NOUN VERB NOUN EOF{
-        console.log($1,$2,$3)
+    |NOUN VERB OBJECT{
+        console.log($1,$2,$3);
     };
 
+sentence
+    : NOUN VERB sentence{
+        $$ = $1+' '+$2;
+    }
+    | NOUN VERB{
+        $$ = $1+' '+$2;
+    }
+    | sentenceWithObject
+    |EOF;
