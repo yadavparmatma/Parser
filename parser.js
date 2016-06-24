@@ -24,20 +24,21 @@ var combinesameVerbSentence = function (sentenceSet) {
 
 var isSentecePresent = function (sentenceSet,newSentence) {
     return _.findIndex(sentenceSet,function (sentence) {
-        return newSentence.verb == sentence.verb;
+        return newSentence.verb == sentence.verb && newSentence.noun == sentence.noun;
     });
 };
 
 var appendConjuctionAtLast = function (sentence) {
     var lastObj = _.last(sentence.object);
     var combinedObjectExceptLast = sentence.object.slice(0, sentence.object.indexOf(lastObj)).join(',');
-    var objectsWithConjuction = combinedObjectExceptLast.concat(' and '+lastObj);
+    var objectsWithConjuction = sentence.object.length > 1 ?
+    combinedObjectExceptLast.concat(' and '+lastObj) : lastObj;
     return sentence.noun+' '+sentence.verb+' '+ objectsWithConjuction+sentence.fullstop;
 }
 
 var getOutputSentences = function (){
   var output = actBasedSepratedSentences(sentences).map(function (sentence) {
-      return appendConjuctionAtLast(sentence)
+      return appendConjuctionAtLast(sentence);
   }).join(' ');
   return output;
 };

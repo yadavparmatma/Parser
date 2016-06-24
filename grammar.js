@@ -77,7 +77,7 @@ var parser = {trace: function trace() { },
 yy: {},
 symbols_: {"error":2,"Paragraph":3,"Sentences":4,"Sentence":5,"NOUN":6,"VERB":7,"OBJECT":8,"FULLSTOP":9,"EOF":10,"$accept":0,"$end":1},
 terminals_: {2:"error",6:"NOUN",7:"VERB",8:"OBJECT",9:"FULLSTOP",10:"EOF"},
-productions_: [0,[3,1],[4,1],[4,2],[5,4],[5,1]],
+productions_: [0,[3,1],[4,1],[4,2],[5,4],[5,4],[5,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -93,14 +93,14 @@ case 3:
     this.$ = ($$[$0-1]).concat($$[$0])
   
 break;
-case 4:
+case 4: case 5:
 
 	   this.$ = [{"noun":$$[$0-3],"verb":$$[$0-2],"object":[$$[$0-1]],"fullstop":$$[$0]}];
 	
 break;
 }
 },
-table: [{3:1,4:2,5:3,6:$V0,10:$V1},{1:[3]},{1:[2,1],5:6,6:$V0,10:$V1},o($V2,[2,2]),{7:[1,7]},o($V2,[2,5]),o($V2,[2,3]),{8:[1,8]},{9:[1,9]},o($V2,[2,4])],
+table: [{3:1,4:2,5:3,6:$V0,10:$V1},{1:[3]},{1:[2,1],5:6,6:$V0,10:$V1},o($V2,[2,2]),{7:[1,7]},o($V2,[2,6]),o($V2,[2,3]),{6:[1,9],8:[1,8]},{9:[1,10]},{9:[1,11]},o($V2,[2,4]),o($V2,[2,5])],
 defaultActions: {},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
@@ -594,7 +594,7 @@ case 5:return 10;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:(ram))/,/^(?:(hates|likes))/,/^(?:(tea|coffee|butter|cheese|biscuits))/,/^(?:\.)/,/^(?:$)/],
+rules: [/^(?:\s+)/,/^(?:(ram|sita))/,/^(?:(hates|likes))/,/^(?:(tea|coffee|butter|cheese|biscuits|sita|ram))/,/^(?:\.)/,/^(?:$)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5],"inclusive":true}}
 });
 return lexer;

@@ -3,9 +3,9 @@
 
 %%
 \s+                   /* skip whitespace */
-("ram")                               return 'NOUN';
+("ram"|"sita")                               return 'NOUN';
 ("hates"|"likes")                     return 'VERB';
-("tea"|"coffee"|"butter"|"cheese"|"biscuits")		return 'OBJECT'
+("tea"|"coffee"|"butter"|"cheese"|"biscuits"|"sita"|"ram")		return 'OBJECT'
 "."										                return 'FULLSTOP'
 <<EOF>>               					      return 'EOF';
 
@@ -31,4 +31,11 @@ Sentence
 	: NOUN VERB OBJECT FULLSTOP{
 	   $$ = [{"noun":$1,"verb":$2,"object":[$3],"fullstop":$4}];
 	}
-  |EOF;
+	| NOUN VERB NOUN FULLSTOP{
+	   $$ = [{"noun":$1,"verb":$2,"object":[$3],"fullstop":$4}];
+	}
+  	|EOF;
+/*OBJECT
+	: NOUN {
+		$$ = $1;
+	};*/
