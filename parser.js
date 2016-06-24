@@ -28,10 +28,16 @@ var isSentecePresent = function (sentenceSet,newSentence) {
     });
 };
 
+var appendConjuctionAtLast = function (sentence) {
+    var lastObj = _.last(sentence.object);
+    var combinedObjectExceptLast = sentence.object.slice(0, sentence.object.indexOf(lastObj)).join(',');
+    var objectsWithConjuction = combinedObjectExceptLast.concat(' and '+lastObj);
+    return sentence.noun+' '+sentence.verb+' '+ objectsWithConjuction+sentence.fullstop;
+}
 
 var getOutputSentences = function (){
   var output = actBasedSepratedSentences(sentences).map(function (sentence) {
-      return sentence.noun+' '+sentence.verb+' '+sentence.object.join(' and ') + sentence.fullstop;
+      return appendConjuctionAtLast(sentence)
   }).join(' ');
   return output;
 };
