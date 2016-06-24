@@ -594,7 +594,7 @@ case 5:return 10;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:(ram))/,/^(?:(hates|likes))/,/^(?:(tea|coffee|butter|cheese))/,/^(?:\.)/,/^(?:$)/],
+rules: [/^(?:\s+)/,/^(?:(ram))/,/^(?:(hates|likes))/,/^(?:(tea|coffee|butter|cheese|biscuits))/,/^(?:\.)/,/^(?:$)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5],"inclusive":true}}
 });
 return lexer;

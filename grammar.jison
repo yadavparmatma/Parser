@@ -5,7 +5,7 @@
 \s+                   /* skip whitespace */
 ("ram")                               return 'NOUN';
 ("hates"|"likes")                     return 'VERB';
-("tea"|"coffee"|"butter"|"cheese")		return 'OBJECT'
+("tea"|"coffee"|"butter"|"cheese"|"biscuits")		return 'OBJECT'
 "."										                return 'FULLSTOP'
 <<EOF>>               					      return 'EOF';
 
