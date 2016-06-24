@@ -1,9 +1,7 @@
-
 /* lexical grammar */
 %lex
 
 %%
-
 \s+                   /* skip whitespace */
 ("ram")                               return 'NOUN';
 ("hates"|"likes")                     return 'VERB';
@@ -31,6 +29,6 @@ Sentences
 
 Sentence
 	: NOUN VERB OBJECT FULLSTOP{
-	   $$ = [{"noun":$1,"verb":$2,"object":$3,"fullstop":$4}];
+	   $$ = [{"noun":$1,"verb":$2,"object":[$3],"fullstop":$4}];
 	}
   |EOF;
