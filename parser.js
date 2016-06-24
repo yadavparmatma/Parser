@@ -7,19 +7,27 @@ var contents = fs.readFileSync(inputFile,"utf8");
 var sentences = parser.parse(contents);
 
 var actBasedSepratedSentences = function(sentences){
-    var mapper = sentenceMapper(sentences);
-    var seprateSentences = _.map(sentences,mapper);
-    return _.compact(seprateSentences);
+    var sentenceSet = [];
+    var combiner = combinesameVerbSentence(sentenceSet);
+    sentences.forEach(combiner)
+    return _.compact(sentenceSet);
+};
+
+
+var combinesameVerbSentence = function (sentenceSet) {
+    return function(sentence){
+        var index = isSentecePresent(sentenceSet,sentence);
+        (index > -1) ? sentenceSet[index].object = _.union(sentenceSet[index].object, sentence.object) :
+            sentenceSet.push(sentence);
+    };
 }
 
-var sentenceMapper = function(sentences){
-  return function(sentence,index){
-    if(sentences[index+1] && sentence.verb == sentences[index+1].verb){
-      sentence.object = sentence.object.concat(sentences[index+1].object);
-      return sentence;
-    }
-  }
-}
+var isSentecePresent = function (sentenceSet,newSentence) {
+    return _.findIndex(sentenceSet,function (sentence) {
+        return newSentence.verb == sentence.verb;
+    });
+};
+
 
 var getOutputSentences = function (){
   var output = actBasedSepratedSentences(sentences).map(function (sentence) {
