@@ -6,19 +6,19 @@ var inputFile = process.argv[2];
 var contents = fs.readFileSync(inputFile,"utf8");
 var sentences = parser.parse(contents);
 
-var actBasedSepratedSentences = function(sentences){
+var actionBasedSentenceSet = function(sentences){
     var sentenceSet = [];
-    var combiner = combinesameVerbSentence(sentenceSet);
+    var combiner = findActionBasedSet(sentenceSet);
     sentences.forEach(combiner)
     return _.compact(sentenceSet);
 };
 
 
-var combinesameVerbSentence = function (sentenceSet) {
+var findActionBasedSet = function (sentenceSet) {
     return function(sentence){
         var index = isSentecePresent(sentenceSet,sentence);
-        (index > -1) ? sentenceSet[index].object = _.union(sentenceSet[index].object, sentence.object) :
-            sentenceSet.push(sentence);
+        (index > -1) ? sentenceSet[index].object =
+        _.union(sentenceSet[index].object, sentence.object) : sentenceSet.push(sentence);
     };
 }
 
@@ -28,19 +28,18 @@ var isSentecePresent = function (sentenceSet,newSentence) {
     });
 };
 
-var appendConjuctionAtLast = function (sentence) {
-    var lastObj = _.last(sentence.object);
-    var combinedObjectExceptLast = sentence.object.slice(0, sentence.object.indexOf(lastObj)).join(',');
-    var objectsWithConjuction = sentence.object.length > 1 ?
-    combinedObjectExceptLast.concat(' and '+lastObj) : lastObj;
+var appendConjuctionAtLast = function (sentence,conjunction) {
+    var lastObj = sentence.object.pop();
+    var combinedObjects = sentence.object.toString();
+    var objectsWithConjuction = sentence.object ? combinedObjects.concat(conjunction + lastObj) : lastObj;
     return sentence.noun+' '+sentence.verb+' '+ objectsWithConjuction+sentence.fullstop;
 }
 
-var getOutputSentences = function (){
-  var output = actBasedSepratedSentences(sentences).map(function (sentence) {
-      return appendConjuctionAtLast(sentence);
-  }).join(' ');
-  return output;
+var getSentences = function (){
+  var output = actionBasedSentenceSet(sentences).map(function (sentence) {
+      return appendConjuctionAtLast(sentence," and ");
+  });
+  return output.join(' ');
 };
 
-console.log(getOutputSentences());
+console.log(getSentences());
