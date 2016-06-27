@@ -75,9 +75,9 @@ var grammar = (function(){
 var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,4],$V1=[1,5],$V2=[1,6,10];
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"Paragraph":3,"Sentences":4,"Sentence":5,"NOUN":6,"VERB":7,"OBJECT":8,"FULLSTOP":9,"EOF":10,"$accept":0,"$end":1},
-terminals_: {2:"error",6:"NOUN",7:"VERB",8:"OBJECT",9:"FULLSTOP",10:"EOF"},
-productions_: [0,[3,1],[4,1],[4,2],[5,4],[5,4],[5,1]],
+symbols_: {"error":2,"paragraph":3,"sentences":4,"sentence":5,"noun":6,"verb":7,"objectPhrase":8,"fullStop":9,"EOF":10,"object":11,"$accept":0,"$end":1},
+terminals_: {2:"error",6:"noun",7:"verb",9:"fullStop",10:"EOF",11:"object"},
+productions_: [0,[3,1],[4,1],[4,2],[5,4],[5,1],[8,1],[8,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -93,15 +93,25 @@ case 3:
     this.$ = ($$[$0-1]).concat($$[$0])
   
 break;
-case 4: case 5:
+case 4:
 
 	   this.$ = [{"noun":$$[$0-3],"verb":$$[$0-2],"object":[$$[$0-1]],"fullstop":$$[$0]}];
 	
 break;
+case 6:
+
+    this.$ = $$[$0];
+  
+break;
+case 7:
+
+		this.$ = $$[$0];
+	
+break;
 }
 },
-table: [{3:1,4:2,5:3,6:$V0,10:$V1},{1:[3]},{1:[2,1],5:6,6:$V0,10:$V1},o($V2,[2,2]),{7:[1,7]},o($V2,[2,6]),o($V2,[2,3]),{6:[1,9],8:[1,8]},{9:[1,10]},{9:[1,11]},o($V2,[2,4]),o($V2,[2,5])],
-defaultActions: {},
+table: [{3:1,4:2,5:3,6:$V0,10:$V1},{1:[3]},{1:[2,1],5:6,6:$V0,10:$V1},o($V2,[2,2]),{7:[1,7]},o($V2,[2,5]),o($V2,[2,3]),{6:[1,9],8:8,11:[1,10]},{9:[1,11]},{9:[2,6]},{9:[2,7]},o($V2,[2,4])],
+defaultActions: {9:[2,6],10:[2,7]},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -586,7 +596,7 @@ case 1:return 6;
 break;
 case 2:return 7;
 break;
-case 3:return 8
+case 3:return 11
 break;
 case 4:return 9
 break;
@@ -594,7 +604,7 @@ case 5:return 10;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:(ram|sita))/,/^(?:(hates|likes))/,/^(?:(tea|coffee|butter|cheese|biscuits|sita|ram))/,/^(?:\.)/,/^(?:$)/],
+rules: [/^(?:\s+)/,/^(?:(ram|sita))/,/^(?:(hates|likes))/,/^(?:(tea|coffee|butter|cheese|biscuits))/,/^(?:\.)/,/^(?:$)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5],"inclusive":true}}
 });
 return lexer;
