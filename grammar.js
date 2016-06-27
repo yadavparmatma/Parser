@@ -72,12 +72,12 @@
   }
 */
 var grammar = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,4],$V1=[1,5],$V2=[1,6,10];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,4],$V1=[1,5],$V2=[1,6,10],$V3=[6,13];
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"paragraph":3,"sentences":4,"sentence":5,"noun":6,"verb":7,"objectPhrase":8,"fullStop":9,"EOF":10,"object":11,"$accept":0,"$end":1},
-terminals_: {2:"error",6:"noun",7:"verb",9:"fullStop",10:"EOF",11:"object"},
-productions_: [0,[3,1],[4,1],[4,2],[5,4],[5,1],[8,1],[8,1]],
+symbols_: {"error":2,"paragraph":3,"sentences":4,"sentence":5,"noun":6,"verbPhrase":7,"objectPhrase":8,"fullStop":9,"EOF":10,"verb":11,"adverb":12,"object":13,"$accept":0,"$end":1},
+terminals_: {2:"error",6:"noun",9:"fullStop",10:"EOF",11:"verb",12:"adverb",13:"object"},
+productions_: [0,[3,1],[4,1],[4,2],[5,4],[5,1],[7,1],[7,2],[8,1],[8,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -100,18 +100,28 @@ case 4:
 break;
 case 6:
 
-    this.$ = $$[$0];
-  
+		this.$ = {"mainVerb": $$[$0]};
+	
 break;
 case 7:
 
-		this.$ = $$[$0];
+		this.$ = {"adverb": $$[$0-1], "mainVerb": $$[$0]};
 	
+break;
+case 8:
+
+    this.$ = $$[$0];
+  
+break;
+case 9:
+
+  	this.$ = $$[$0];
+  
 break;
 }
 },
-table: [{3:1,4:2,5:3,6:$V0,10:$V1},{1:[3]},{1:[2,1],5:6,6:$V0,10:$V1},o($V2,[2,2]),{7:[1,7]},o($V2,[2,5]),o($V2,[2,3]),{6:[1,9],8:8,11:[1,10]},{9:[1,11]},{9:[2,6]},{9:[2,7]},o($V2,[2,4])],
-defaultActions: {9:[2,6],10:[2,7]},
+table: [{3:1,4:2,5:3,6:$V0,10:$V1},{1:[3]},{1:[2,1],5:6,6:$V0,10:$V1},o($V2,[2,2]),{7:7,11:[1,8],12:[1,9]},o($V2,[2,5]),o($V2,[2,3]),{6:[1,11],8:10,13:[1,12]},o($V3,[2,6]),{11:[1,13]},{9:[1,14]},{9:[2,8]},{9:[2,9]},o($V3,[2,7]),o($V2,[2,4])],
+defaultActions: {11:[2,8],12:[2,9]},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -594,18 +604,20 @@ case 0:/* skip whitespace */
 break;
 case 1:return 6;
 break;
-case 2:return 7;
+case 2:return 11;
 break;
-case 3:return 11
+case 3:return 13;
 break;
-case 4:return 9
+case 4:return 12;
 break;
-case 5:return 10;
+case 5:return 9;
+break;
+case 6:return 10;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:(ram|sita))/,/^(?:(hates|likes))/,/^(?:(tea|coffee|butter|cheese|biscuits))/,/^(?:\.)/,/^(?:$)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5],"inclusive":true}}
+rules: [/^(?:\s+)/,/^(?:(ram|sita))/,/^(?:(hates|likes))/,/^(?:(tea|coffee|butter|cheese|biscuits))/,/^(?:also\b)/,/^(?:\.)/,/^(?:$)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}}
 });
 return lexer;
 })();

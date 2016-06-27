@@ -3,11 +3,12 @@
 
 %%
 \s+                   /* skip whitespace */
-("ram"|"sita")                                  return 'noun';
-("hates"|"likes")                               return 'verb';
-("tea"|"coffee"|"butter"|"cheese"|"biscuits")	  return 'object'
-"."										                          return 'fullStop'
-<<EOF>>               					                return 'EOF';
+("ram"|"sita")                                    return 'noun';
+("hates"|"likes")                                 return 'verb';
+("tea"|"coffee"|"butter"|"cheese"|"biscuits")	  return 'object';
+"also"											  return 'adverb';
+"."										          return 'fullStop';
+<<EOF>>               					          return 'EOF';
 
 /lex
 
@@ -28,15 +29,23 @@ sentences
   };
 
 sentence
-	: noun verb objectPhrase fullStop{
+	: noun verbPhrase objectPhrase fullStop{
 	   $$ = [{"noun":$1,"verb":$2,"object":[$3],"fullstop":$4}];
 	}
   |EOF;
+
+verbPhrase
+	:verb{
+		$$ = {"mainVerb": $1};
+	}
+	| adverb verb{
+		$$ = {"adverb": $1, "mainVerb": $2};
+	};
 
 objectPhrase
   : noun {
     $$ = $1;
   }
-	| object {
-		$$ = $1;
-	};
+  | object {
+  	$$ = $1;
+  };

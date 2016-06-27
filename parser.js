@@ -4,7 +4,7 @@ var _ = require('lodash');
 var inputFile = process.argv[2];
 
 var contents = fs.readFileSync(inputFile,"utf8");
-var sentences = parser.parse(contents);
+var sentences = _.compact(parser.parse(contents));
 
 var actionBasedSentenceSet = function(sentences){
     var sentenceSet = [];
@@ -24,7 +24,7 @@ var findActionBasedSet = function (sentenceSet) {
 
 var isSentecePresent = function (sentenceSet,newSentence) {
     return _.findIndex(sentenceSet,function (sentence) {
-        return newSentence.verb == sentence.verb && newSentence.noun == sentence.noun;
+        return newSentence.verb.mainVerb == sentence.verb.mainVerb && newSentence.noun == sentence.noun;
     });
 };
 
@@ -37,7 +37,7 @@ var appendConjuctionAtLast = function (sentence,conjunction) {
 }
 
 var format = function(sentence,objects){
-  return [sentence.noun,sentence.verb,objects].join(' ').concat(sentence.fullstop);
+  return [sentence.noun,sentence.verb.mainVerb,objects].join(' ').concat(sentence.fullstop);
 }
 
 var getSentences = function (){
