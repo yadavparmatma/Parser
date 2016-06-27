@@ -19,7 +19,7 @@
 
 paragraph
   :sentences{
-    return $1;
+    return ($1[0].verb.adverb ? [{error:"semantic error", sentence: $1[0]}] : $1);
   };
 
 sentences

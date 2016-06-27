@@ -5,7 +5,6 @@ var inputFile = process.argv[2];
 
 var contents = fs.readFileSync(inputFile,"utf8");
 var sentences = _.compact(parser.parse(contents));
-
 var actionBasedSentenceSet = function(sentences){
     var sentenceSet = [];
     var combiner = findActionBasedSet(sentenceSet);
@@ -40,11 +39,19 @@ var format = function(sentence,objects){
   return [sentence.noun,sentence.verb.mainVerb,objects].join(' ').concat(sentence.fullstop);
 }
 
+var generateSymanticError = function (sentence) {
+    var sentenceFormat = [sentence.noun,sentence.verb.adverb,sentence.verb.mainVerb, sentence.object.toString()].join(' ');
+    return "Symantic Error: \n"+sentenceFormat+" <- also appeared before context.";
+}
+
 var getSentences = function (){
-  var output = actionBasedSentenceSet(sentences).map(function (sentence) {
-      return appendConjuctionAtLast(sentence," and ");
-  });
-  return output.join(' ');
+    if(sentences[0].error)
+        return generateSymanticError(sentences[0].sentence)
+    else {
+        return actionBasedSentenceSet(sentences).map(function (sentence) {
+            return appendConjuctionAtLast(sentence," and ");
+        }).join(' ');
+    }
 };
 
 console.log(getSentences());

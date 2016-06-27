@@ -85,7 +85,7 @@ var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
 
-    return $$[$0];
+    return ($$[$0][0].verb.adverb ? [{error:"semantic error", sentence: $$[$0][0]}] : $$[$0]);
   
 break;
 case 3:
