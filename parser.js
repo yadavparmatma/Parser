@@ -31,7 +31,8 @@ var isSentecePresent = function (sentenceSet,newSentence) {
 var appendConjuctionAtLast = function (sentence,conjunction) {
     var lastObj = sentence.object.pop();
     var combinedObjects = sentence.object.toString();
-    var objectsWithConjuction = sentence.object ? combinedObjects.concat(conjunction + lastObj) : lastObj;
+    var objectsWithConjuction = sentence.object.length > 0 ?
+        combinedObjects.concat(conjunction + lastObj) : lastObj;
     return format(sentence,objectsWithConjuction);
 }
 
