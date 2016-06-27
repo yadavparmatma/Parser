@@ -32,7 +32,11 @@ var appendConjuctionAtLast = function (sentence,conjunction) {
     var lastObj = sentence.object.pop();
     var combinedObjects = sentence.object.toString();
     var objectsWithConjuction = sentence.object ? combinedObjects.concat(conjunction + lastObj) : lastObj;
-    return sentence.noun+' '+sentence.verb+' '+ objectsWithConjuction+sentence.fullstop;
+    return format(sentence,objectsWithConjuction);
+}
+
+var format = function(sentence,objects){
+  return [sentence.noun,sentence.verb,objects].join(' ').concat(sentence.fullstop);
 }
 
 var getSentences = function (){
