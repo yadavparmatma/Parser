@@ -12,12 +12,11 @@ var actionBasedSentenceSet = function(sentences){
     return _.compact(sentenceSet);
 };
 
-
 var findActionBasedSet = function (sentenceSet) {
     return function(sentence){
         var index = isSentecePresent(sentenceSet,sentence);
         (index > -1) ? sentenceSet[index].object =
-        _.union(sentenceSet[index].object, sentence.object) : sentenceSet.push(sentence);
+        _.union(sentenceSet[index].object, sentence.object) : checkSymanticError(sentenceSet,sentence);
     };
 }
 
@@ -35,23 +34,32 @@ var appendConjuctionAtLast = function (sentence,conjunction) {
     return format(sentence,objectsWithConjuction);
 }
 
-var format = function(sentence,objects){
-  return [sentence.noun,sentence.verb.mainVerb,objects].join(' ').concat(sentence.fullstop);
+var format = function(sentence,objects,adverb){
+  adverb = adverb ? adverb : '';
+  return [sentence.noun,adverb,sentence.verb.mainVerb,objects].join(' ').concat(sentence.fullstop);
 }
 
-var generateSymanticError = function (sentence) {
-    var sentenceFormat = [sentence.noun,sentence.verb.adverb,sentence.verb.mainVerb, sentence.object.toString()].join(' ');
-    return "Symantic Error: \n"+sentenceFormat+" <- also appeared before context.";
+var Error = function (sentence,name) {
+    var sentenceMeaasge = format(sentence,sentence.object,sentence.verb.adverb);
+    this.message = sentenceMeaasge+" <- " +sentence.verb.adverb+" appeared before context.";
+    this.name = name;
 }
 
 var getSentences = function (){
-    if(sentences[0].error)
-        return generateSymanticError(sentences[0].sentence)
-    else {
-        return actionBasedSentenceSet(sentences).map(function (sentence) {
-            return appendConjuctionAtLast(sentence," and ");
-        }).join(' ');
-    }
+    return actionBasedSentenceSet(sentences).map(function (sentence) {
+        return appendConjuctionAtLast(sentence," and ");
+    }).join(' ');
 };
+
+var checkSymanticError = function(sentenceSet,sentence){
+  try{
+    if(sentence.verb.adverb)
+      throw new Error(sentence,"SymanticError:");
+    sentenceSet.push(sentence);
+    }catch(e){
+      console.log(e.name,e.message);
+      process.exit(0);
+    }
+}
 
 console.log(getSentences());
