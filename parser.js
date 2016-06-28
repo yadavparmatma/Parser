@@ -31,16 +31,15 @@ var appendConjuctionAtLast = function (sentence,conjunction) {
     var combinedObjects = sentence.object.toString();
     var objectsWithConjuction = sentence.object.length > 0 ?
         combinedObjects.concat(conjunction + lastObj) : lastObj;
-    return format(sentence,objectsWithConjuction);
+    return formSentence(sentence,objectsWithConjuction);
 }
 
-var format = function(sentence,objects,adverb){
-  adverb = adverb ? adverb : '';
-  return [sentence.noun,adverb,sentence.verb.mainVerb,objects].join(' ').concat(sentence.fullstop);
+var formSentence = function(sentence,objects,adverb){
+  return _.compact([sentence.noun,adverb,sentence.verb.mainVerb,objects]).join(' ').concat(sentence.fullstop);
 }
 
 var Error = function (sentence,name) {
-    var sentenceMeaasge = format(sentence,sentence.object,sentence.verb.adverb);
+    var sentenceMeaasge = formSentence(sentence,sentence.object,sentence.verb.adverb);
     this.message = sentenceMeaasge+" <- " +sentence.verb.adverb+" appeared before context.";
     this.name = name;
 }
