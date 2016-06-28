@@ -95,7 +95,7 @@ case 3:
 break;
 case 4:
 
-	   this.$ = [{"noun":$$[$0-3],"verb":$$[$0-2],"object":[$$[$0-1]],"fullstop":$$[$0]}];
+	   this.$ = [{"noun":$$[$0-3],"verbPhrase":$$[$0-2],"object":[$$[$0-1]],"fullstop":$$[$0]}];
 	
 break;
 case 6:

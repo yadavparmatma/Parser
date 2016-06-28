@@ -22,7 +22,7 @@ var findActionBasedSet = function (sentenceSet) {
 
 var isSentecePresent = function (sentenceSet,newSentence) {
     return _.findIndex(sentenceSet,function (sentence) {
-        return newSentence.verb.mainVerb == sentence.verb.mainVerb && newSentence.noun == sentence.noun;
+        return newSentence.verbPhrase.mainVerb == sentence.verbPhrase.mainVerb && newSentence.noun == sentence.noun;
     });
 };
 
@@ -35,12 +35,12 @@ var appendConjuctionAtLast = function (sentence,conjunction) {
 }
 
 var formSentence = function(sentence,objects,adverb){
-  return _.compact([sentence.noun,adverb,sentence.verb.mainVerb,objects]).join(' ').concat(sentence.fullstop);
+  return _.compact([sentence.noun,adverb,sentence.verbPhrase.mainVerb,objects]).join(' ').concat(sentence.fullstop);
 }
 
 var Error = function (sentence,name) {
-    var sentenceMeaasge = formSentence(sentence,sentence.object,sentence.verb.adverb);
-    this.message = sentenceMeaasge+" <- " +sentence.verb.adverb+" appeared before context.";
+    var sentenceMeaasge = formSentence(sentence,sentence.object,sentence.verbPhrase.adverb);
+    this.message = sentenceMeaasge+" <- " +sentence.verbPhrase.adverb+" appeared before context.";
     this.name = name;
 }
 
@@ -52,7 +52,7 @@ var getSentences = function (){
 
 var checkSymanticError = function(sentenceSet,sentence){
   try{
-    if(sentence.verb.adverb)
+    if(sentence.verbPhrase.adverb)
       throw new Error(sentence,"SymanticError:");
     sentenceSet.push(sentence);
     }catch(e){

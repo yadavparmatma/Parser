@@ -30,7 +30,7 @@ sentences
 
 sentence
 	: noun verbPhrase objectPhrase fullStop{
-	   $$ = [{"noun":$1,"verb":$2,"object":[$3],"fullstop":$4}];
+	   $$ = [{"noun":$1,"verbPhrase":$2,"object":[$3],"fullstop":$4}];
 	}
   |EOF;
 
